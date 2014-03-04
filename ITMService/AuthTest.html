@@ -1,0 +1,108 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <script type="text/javascript" data-app-id="4iMyRGLWvnqhCv3tUfsw" src="https://assets.yammer.com/platform/yam.js"></script>
+    <script type="text/javascript" src="Scripts/jquery-1.7.1.min.js" ></script>
+    <script type="text/javascript"  src="Scripts/ITM.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            ITM = ITMCreate({ name: "ITM" });// create the ITM object
+
+            ITM.checkYammerStatus(function (resp) {
+               
+                checkExists();
+            });
+
+            
+
+        });
+        // check to see if the user exists
+        function checkExists() {
+
+            ITM.checkUserExists(function (check) {
+                if (!check.userID) {// the userID reflects that the return value is a user's creds 
+                    var user = ITM.getCredentials();
+                    ITM.registerUser(check.fName, check.lName, check.email, function (data) {
+                        alert("had to add new user"+": "+data.lName+","+data.fName+" - "+data.email);
+                    });
+                } else {// user existed, so show the data about the user
+                    alert("user existed:" + check.userID + ":" + check.lName+","+check.fName+" - "+check.email);
+                }
+
+            });
+        }
+
+        // all calls to the api should now be written so they access the credentials and set the auth header beforehand
+
+        /*
+            $.ajax({
+                 url: "api/build/",
+                 method: "GET",
+                 beforeSend: function (req) {
+                     var user = ITM.getCredentials();
+                     var up = btoa(user+":"+user);//btoa("bbonnet18:october17");//Base64("bbonnet18:october17");
+                     req.setRequestHeader("Authorization", "Basic   " + up);
+                 },
+
+             })
+        */
+        
+
+        //checkYammerStatus(function (result) {
+        //    var test = "";
+        //    tempemail = null;
+        //    // get the user's email address
+        //    for (var s = 0; s < resp.user.contact.email_addresses.length; s++) {
+        //        var useremail = resp.user.contact.email_addresses[s].address;
+        //        if (useremail.indexOf("bah.com")) {
+        //            tempemail = useremail;
+        //            break;
+        //        } else {
+        //            var test2;
+        //        }
+        //    }
+        //    if (tempemail != null) {
+        //        // set the globals 
+                
+        //        //check to see if the user exists, if so set the auth headers to use this username/password combo
+        //        // if the user doesn't exist, check to see that it's a BAH user and 
+        //        return ITMUser + ":" + ITMPassword;// return the username and password combo
+        //    } else {
+        //        return null;
+        //    }
+        //});
+        //yam.getLoginStatus(function (resp) {
+        //    if (resp.authResponse) {// this means the user is authenticated
+        //        // set the local user/pw so the ITM calls can happen
+        //        tempemail = null;
+        //        // get the user's email address
+        //        for (var s = 0; s < resp.user.contact.email_addresses.length; s++) {
+        //            var useremail = resp.user.contact.email_addresses[s].address;
+        //            if (useremail.indexOf("bah.com")) {
+        //                tempemail = useremail;
+        //                break;
+        //            } else {
+        //                var test2;
+        //            }
+        //        }
+        //        if (tempemail != null) {
+        //            ITMUser = tempemail
+        //            ITMPassword = tempemail;
+        //            return ITMUser + ":" + ITMPassword;// return the username and password combo
+        //        } else {
+        //            return null;
+        //        }
+                
+               
+        //    } else {
+        //        window.location = "https://itmgo.com/login.html";
+        //        return null;
+        //    }
+        //});
+    </script>
+</head>
+<body>
+
+</body>
+</html>

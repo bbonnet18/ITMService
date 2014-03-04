@@ -1,0 +1,48 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+    <script type="text/javascript" data-app-id="4iMyRGLWvnqhCv3tUfsw" src="https://assets.yammer.com/platform/yam.js"></script>
+   
+<head>
+    <title>Login to ITM Beta</title>
+</head>
+<body>
+     <span id="yammer-login"></span>
+<script> yam.connect.loginButton('#yammer-login', function (resp)
+ {
+     // if this came from the app, write a cookie value indicating that we're logging in from the app
+     // if this was launched from the app after the app has registered and logged in with the app, then set the
+     // cookie value to recognize that this is not a login
+
+     
+     if (resp.authResponse) {
+         document.getElementById('yammer-login').innerHTML = 'Welcome to Yammer!';        
+     }
+
+     IS_IPAD = navigator.userAgent.match(/iPad/i) != null;
+     IS_IPHONE = (navigator.userAgent.match(/iPhone/i) != null) || (navigator.userAgent.match(/iPod/i) != null);
+     if (IS_IPAD) {
+         IS_IPHONE = false;
+     }
+     if (IS_IPHONE || IS_IPAD) {
+
+         alert("first: " + firstName + " last:" + lastName + " token: " + authToken);
+         var authToken = resp.access_token.token;
+         var firstName = resp.user.first_name;
+         var lastName = resp.user.last_name;
+         var email;
+         for (var s = 0; s < resp.user.contact.email_addresses.length; s++) {
+             var useremail = resp.user.contact.email_addresses[s].address;
+             if (useremail.indexOf("bah.com")) {
+                 email = useremail;
+                 break;
+             }
+         }
+         window.location = "itmgo://firstname=" + firstName + "&lastname=" + lastName + "&token=" + authToken + "&email=" + email;
+     } else {
+         window.location = "https://itmgo.com/index.html";// link them to the main page if this is not an iPhone or iPad
+     }
+
+ }); </script>
+</body>
+</html>

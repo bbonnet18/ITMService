@@ -1,0 +1,78 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+
+    <title>ITM Mobile</title>
+
+     <script type="text/javascript" src="Scripts/jquery-1.7.1.min.js" ></script>
+
+
+        <script type="text/javascript">
+         $(document).ready(function () {
+             
+             getAll();
+         });
+
+
+         function getAll() {
+             $.ajax("api/build", function (data) {
+                 
+             })
+            .done(function (data) {
+               // alert("SUCCESS Getting All");
+                var response = data;
+
+                $.each(response, function(i,val) {
+                    
+                    var link = $("<li/>").html("title: " + val.title + " <a href='#' onclick='getItem(" + val.applicationID + ")'>" + val.applicationID + "</a>");
+                    $("#slider").append(link);
+                });
+
+            })
+
+            .error(function () {
+                alert("nothing to worry about");
+            })
+         }
+
+         function getItem(id) {
+             $("#slider div").remove();
+             $.getJSON("api/item/" + id, null, function (data) {
+                 var d = data;
+               $.each(data, function (index, d) {
+                   var wholeDiv = $("<div/>").css("border", "2px solid blue");// create the div
+                   var media = (d.type == "image") ? $("<div/>").append($("<img/>").attr({ "src": "media/"+d.fileName, "alt": d.title })) : $("<div/>").append($("<video/>").attr({ "src": "media/"+d.fileName,"type":"video/mp4", "alt": d.title,"width":"480px","height":"360px" }))
+                   wholeDiv.append($("<h3/>").html(d.title));
+                   wholeDiv.append(media);
+                   wholeDiv.append($("<p/>").html(d.caption));
+                   $("#slider").append(wholeDiv);
+                 });
+             });
+
+         }
+
+         function check() {
+             var id = document.getElementById("testItem");
+             var newId = id.value;
+             getItem(newId);
+         }
+    </script>
+    
+</head>
+<body style="margin:0">
+   
+    <ul id="slider">
+
+    </ul>
+    
+    <form name="checkForm">
+        <label>Item Number</label>
+         <input id="testItem" name="testItem" type="text" />
+        <input name="submitBtn" type="button" title="submit" value="submit" onclick="check();" />
+    </form>
+        
+   
+</body>
+</html>

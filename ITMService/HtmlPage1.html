@@ -1,0 +1,180 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Testing</title>
+
+    <script type="text/javascript" src="Scripts/jquery-1.7.1.min.js" ></script>
+     <script type="text/javascript">
+         $(document).ready(function () {
+             //use api/item/item for posts with media
+             // data for build{ title: "steve",tags:"tag 1",manifestPath:"1.json",buildID:1,previewImagePath:"thumbView/thumb.png"}
+
+             // to post an individual item
+             //$.post("api/item/item", { title: "steve", caption: "this is the new one", buildItemID: 2, buildID: 7, orderNumber: 1, timeStamp: "10/17/1978", type: "image", status: "edit", fileName: "1_3.mov", thumbnailPath: "1_3_thumb.png" }, function (data) {
+             //    alert("returned something from the server" + data);
+             //})
+
+             //.error("tell them about the error");
+
+         });
+
+         function getByID(id) {
+             var test = "";
+         }
+
+         function getAll() {
+             $.ajax({
+                 url: "api/build/",
+                 method: "GET",
+                 beforeSend: function (req) {
+                     
+                     var up = btoa("bbonnet18:october17");//Base64("bbonnet18:october17");
+                     req.setRequestHeader("Authorization", "Basic   " + up);
+                 },
+
+             })
+
+             //$.ajax("api/build",function(data){
+             //    var test = "";
+             //})
+            .done(function(){
+                var done = "";// done so check them
+            })
+
+            .error(function(){
+                alert("nothing to worry about");
+            })
+    
+         }
+
+         //function deleteBuild(id) {
+             
+         //}
+
+         function postBuild() {
+
+             // data for build{ title: "steve",tags:"tag 1",manifestPath:"1.json",buildID:1,previewImagePath:"thumbView/thumb.png"}
+             $.post("api/Build/media", { title: "Mike", tags: "three tag", manifestPath: "4.json", buildID: "34D21E89-B972-49F1-8191-236FCB0868D5", previewImagePath: "thumbView/thumb.png", applicationID: 2, email: "bonnet_ben@bah.com" }, function (data) {
+                 alert("returned something from the server" + data);
+             })
+
+            .error(function (error) {
+                var test = "test";
+            })
+         }
+        
+
+         function postBuildItems() {
+             $.post("api/Item/item", { title: "start title", fileName: "file1.jpg", orderNumber: 2, status: "completed", thumbnailPath: "/thumb_1.jpg", timeStamp: "10/17/1978", type: "image", buildID: "buildID_01_01_01" }, function (data) {
+                 alert("data returned" + data);
+             })
+
+             .error(function(data){
+                 alert("couldn't post: "+data.statusText);
+             })
+
+         }
+
+         function postPreviewItem() {
+             $.post("api/Item/preview/25", { fileName: "test", file: "file" }, function(data){
+
+             })
+             .success(function(data){
+                 var test = "";
+             })
+             .error(function(error){
+                 var test = "";
+             })
+
+         }
+
+         function addUser() {
+             $.post("api/User/register", {userName: "tempuser", fName: "temp", lName: "user", email: "tempuser@temp.com", password:"temppassword"}, function (data) {
+                 alert("data returned" + data);
+             })
+
+            .error(function (data) {
+                alert("couldn't post: " + data.statusText);
+            })
+         }
+
+             /*
+             public string caption { get; set; }
+        public string fileName { get; set; }
+        public int orderNumber { get; set; }
+        public string status { get; set; }
+        public string thumbnailPath { get; set; }
+        public DateTime timeStamp { get; set; }
+        public string title { get; set; }
+        public string type { get; set; }
+        public int buildID { get; set; }
+             */
+    </script>
+</head>
+
+   
+<body>
+    <h1>Complex Type</h1>
+<form id="form1" method="post" action="api/Item/preview/25" 
+    enctype="multipart/form-data" autocomplete="on" >
+    <div>
+        <label for="title">Title</label>
+        <input type="text" name="title" value="tester" />
+    </div>
+    <div>
+        <label for="orderNumber">orderNumber</label>
+        <input type="text" name="orderNumber" value="0" />
+    </div>
+    <div>
+        <label for="buildID">buildID</label>
+        <input type="text" name="buildID" value="15" />
+    </div>
+    <div>
+        <label for="buildItemIDString">buildItemIDString</label>
+        <input type="text" name="buildItemIDString" value="15"/>
+    </div>
+    <div>
+        <label for="type">type</label>
+        <input type="text" name="type" value="image" />
+    </div>
+    <div>
+        <label for="caption">Caption</label>
+        <input type="text" name="caption" value="testing caption"/>
+    </div>
+    
+    <div>
+        <label for="status">Status</label>
+    </div>
+    <div>
+        <input name="status" type="text" value="edit" />
+        <br />
+    </div>
+    <div>
+        <label for="date">Date</label>
+        <input type="datetime" name="date" />
+    </div>
+    <div>
+        <label for="caption">Caption</label>
+        <input type="text" name="caption" value="second caption" />
+    </div>
+    <div>
+        <label for="image1">Image Upload</label>
+        <input type="file"  name="image1" />
+    </div>
+    <div>
+        <input type="submit" value="Submit" />
+    </div>
+</form>
+    <div>
+        <input type="button" onclick="deleteBuild(7)" value="delete build" />
+        <input type="button" onclick="postBuild()" value="post build" />
+        <input type="button" onclick="getByID(8)" value="get build by id" />
+        <input type="button" onclick="getAll()" value="get all builds" />
+        <input type="button" onclick="postBuildItems()" value="post an item" />
+        <input type="button" onclick="addUser()" value="add a user" />
+        <input type="button" onclick="postPreviewItem()" value="post preview" />
+    </div>
+
+
+</body>
+</html>
